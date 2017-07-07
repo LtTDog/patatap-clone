@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+    <head>
+        <title>Circles</title>
+        <script src="assets/js/lib/paper-full.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/css/exercise.css">
+        <script src="assets/js/lib/howler.min.js"></script>
+        <script type="text/paperscript" canvas="myCanvas">
+        
+        var keyData = {
+            a: {
+                color: "purple",
+                sound: new Howl({
+                    src: ['assets/sounds/bubbles.mp3']
+                })
+            },
+            s: {
+                color: "green",
+                sound: new Howl({
+                    src: ['assets/sounds/clay.mp3']
+                })
+            },
+            d: {
+                color: "yellow",
+                sound: new Howl({
+                    src: ['assets/sounds/confetti.mp3']
+                })
+            },
+            f: {
+                color: "blue",
+                sound: new Howl({
+                    src: ['assets/sounds/corona.mp3']
+                })
+            },
+            e: {
+                color: "red",
+                sound: new Howl({
+                    src: ['assets/sounds/dotted-spiral.mp3']
+                })
+            },
+            r: {
+                color: "yellow",
+                sound: new Howl({
+                    src: ['assets/sounds/flash-1.mp3']
+                })
+            },
+        }
+        
+        var circles = [];
+
+        function onKeyDown(event){
+            if(keyData[event.key]){
+                var maxPoint = new Point(view.size.width, view.size.height);
+                var randomPoint = Point.random();
+                var point = maxPoint * randomPoint;
+                var newCircle = new Path.Circle(point, 300);
+                newCircle.fillColor = keyData[event.key].color;
+                keyData[event.key].sound.play();
+                circles.push(newCircle);
+            }
+        }
+        
+
+        function onFrame(event) {
+            for(var i = 0; i < circles.length; i++){
+                circles[i].fillColor.hue += 1;
+                circles[i].scale(.95);
+                if(circles[i].area < 1){
+                    circles[i].remove();
+                    circles.splice(i, 1);
+                }
+            }
+        }
+
+        
+        </script>
+    </head>
+    <body>
+        <canvas id="myCanvas" resize></canvas>
+    </body>
+</html>
